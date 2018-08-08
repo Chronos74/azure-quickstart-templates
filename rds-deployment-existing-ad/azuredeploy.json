@@ -320,11 +320,6 @@
                         }
                     }
                 ],
-                "dnsSettings": {
-                    "dnsServers": [
-                        "[variables('dnsServerPrivateIp')]"
-                    ]
-                }
             }
         },
         {
@@ -350,11 +345,6 @@
                         }
                     }
                 ],
-                "dnsSettings": {
-                    "dnsServers": [
-                        "[variables('dnsServerPrivateIp')]"
-                    ]
-                }
             }
         },
         {
@@ -381,11 +371,6 @@
                         }
                     }
                 ],
-                "dnsSettings": {
-                    "dnsServers": [
-                        "[variables('dnsServerPrivateIp')]"
-                    ]
-                }
             }
         },
         {
@@ -405,7 +390,7 @@
                     "id": "[resourceId('Microsoft.Compute/availabilitySets', 'gw-availabilityset')]"
                 },
                 "osProfile": {
-                    "computerName": "gateway",
+                    "computerName": "rmon-gw1",
                     "adminUsername": "[parameters('adminUsername')]",
                     "adminPassword": "[parameters('adminPassword')]"
                 },
@@ -568,7 +553,7 @@
                     "id": "[resourceId('Microsoft.Compute/availabilitySets', 'cb-availabilityset')]"
                 },
                 "osProfile": {
-                    "computerName": "broker",
+                    "computerName": "rmon-cb1",
                     "adminUsername": "[parameters('adminUsername')]",
                     "adminPassword": "[parameters('adminPassword')]"
                 },

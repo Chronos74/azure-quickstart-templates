@@ -79,15 +79,15 @@
                 "Standard_A8_v2",
                 "Standard_A8m_v2",
                 "Standard_D1_v2",
-                "Standard_D2_v2",
-                "Standard_D3_v2",
-                "Standard_D4_v2",
-                "Standard_D5_v2"
+                "Standard_D2s_v3",
+                "Standard_D4s_v3",
+                "Standard_D8s_v3",
+                "Standard_D16s_v3"
             ],
             "metadata": {
                 "description": "The size of the RDSH VMs"
             },
-            "defaultValue": "Standard_A4_v2"
+            "defaultValue": "Standard_D2s_v3"
         },
         "location": {
             "type": "string",
@@ -102,7 +102,7 @@
         "cbdnsLabelPrefix": "[toLower(concat('cbd', resourceGroup().name))]",
         "imagePublisher": "MicrosoftWindowsServer",
         "imageOffer": "WindowsServer",
-        "dnsServerPrivateIp": "10.0.0.4",
+        "dnsServerPrivateIp": "10.60.0.4",
         "subnet-id": "[concat(resourceId(parameters('adVnetRG'),'Microsoft.Network/virtualNetworks',parameters('adVnetName')),'/subnets/',parameters('adSubnetName'))]",
         "publicIpRef": "publicIp",
         "brokerIpRef": "brokerpublicIp",
@@ -399,7 +399,7 @@
             ],
             "properties": {
                 "hardwareProfile": {
-                    "vmSize": "Standard_A2"
+                    "vmSize": "Standard_A2_v2"
                 },
                 "availabilitySet": {
                     "id": "[resourceId('Microsoft.Compute/availabilitySets', 'gw-availabilityset')]"
@@ -562,7 +562,7 @@
             ],
             "properties": {
                 "hardwareProfile": {
-                    "vmSize": "Standard_A2"
+                    "vmSize": "Standard_A2_v2"
                 },
                 "availabilitySet": {
                     "id": "[resourceId('Microsoft.Compute/availabilitySets', 'cb-availabilityset')]"

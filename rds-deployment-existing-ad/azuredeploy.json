@@ -390,7 +390,7 @@
                     "id": "[resourceId('Microsoft.Compute/availabilitySets', 'gw-availabilityset')]"
                 },
                 "osProfile": {
-                    "computerName": "rmon-gw1",
+                    "computerName": "gateway",
                     "adminUsername": "[parameters('adminUsername')]",
                     "adminPassword": "[parameters('adminPassword')]"
                 },
@@ -553,7 +553,7 @@
                     "id": "[resourceId('Microsoft.Compute/availabilitySets', 'cb-availabilityset')]"
                 },
                 "osProfile": {
-                    "computerName": "rmon-cb1",
+                    "computerName": "broker",
                     "adminUsername": "[parameters('adminUsername')]",
                     "adminPassword": "[parameters('adminPassword')]"
                 },

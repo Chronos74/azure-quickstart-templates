@@ -3,6 +3,6 @@
     "",
     "\\rds-deployment-existing-ad"
   ],
-  "SelectedNode": "\\rds-deployment-existing-ad\\README.md",
+  "SelectedNode": "\\rds-deployment-existing-ad\\azuredeploy.json",
   "PreviewInSolutionExplorer": false
 }

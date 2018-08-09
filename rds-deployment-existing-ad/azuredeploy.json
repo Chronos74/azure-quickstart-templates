@@ -103,12 +103,12 @@
         "imagePublisher": "MicrosoftWindowsServer",
         "imageOffer": "WindowsServer",
       "dnsServerPrivateIp": "10.52.0.4",
-      "dnsServer2PrivateIp":  "10.52.0.5",
+      "dnsServer2PrivateIp": "10.52.0.5",
         "subnet-id": "[concat(resourceId(parameters('adVnetRG'),'Microsoft.Network/virtualNetworks',parameters('adVnetName')),'/subnets/',parameters('adSubnetName'))]",
         "publicIpRef": "publicIp",
         "brokerIpRef": "brokerpublicIp",
         "gatewayIpRef": "gatewaypublicIp",
-        "assetLocation": "https://raw.githubusercontent.com/Chronos74/azure-QuickStart-Templates/master/rds-deployment/"
+        "assetLocation": "https://raw.githubusercontent.com/Azure/azure-QuickStart-Templates/master/rds-deployment/"
     },
     "resources": [
         {
@@ -296,37 +296,37 @@
             "dependsOn": [
                 "Microsoft.Network/loadBalancers/loadBalancer"
             ],
-          "properties": {
-            "ipConfigurations": [
-              {
-                "name": "ipconfig",
-                "properties": {
-                  "privateIPAllocationMethod": "Dynamic",
-                  "publicIPAddress": {
-                    "id": "[resourceId('Microsoft.Network/publicIPAddresses',variables('gatewayIpRef'))]"
-                  },
-                  "subnet": {
-                    "id": "[variables('subnet-id')]"
-                  },
-                  "loadBalancerBackendAddressPools": [
+            "properties": {
+                "ipConfigurations": [
                     {
-                      "id": "[concat(resourceId('Microsoft.Network/loadBalancers','loadBalancer'),'/backendAddressPools/LBBAP')]"
+                        "name": "ipconfig",
+                        "properties": {
+                            "privateIPAllocationMethod": "Dynamic",
+                            "publicIPAddress": {
+                                "id": "[resourceId('Microsoft.Network/publicIPAddresses',variables('gatewayIpRef'))]"
+                            },
+                            "subnet": {
+                                "id": "[variables('subnet-id')]"
+                            },
+                            "loadBalancerBackendAddressPools": [
+                                {
+                                    "id": "[concat(resourceId('Microsoft.Network/loadBalancers','loadBalancer'),'/backendAddressPools/LBBAP')]"
+                                }
+                            ],
+                            "loadBalancerInboundNatRules": [
+                                {
+                                    "id": "[concat(resourceId('Microsoft.Network/loadBalancers','loadBalancer'),'/inboundNatRules/rdp')]"
+                                }
+                            ]
+                        }
                     }
-                  ],
-                  "loadBalancerInboundNatRules": [
-                    {
-                      "id": "[concat(resourceId('Microsoft.Network/loadBalancers','loadBalancer'),'/inboundNatRules/rdp')]"
-                    }
-                  ]
+                ],
+                "dnsSettings": {
+                    "dnsServers": [
+                        "[variables('dnsServerPrivateIp')]","[variables('dnsServer2PrivateIp')]"
+                    ]
                 }
-              }
-            ],
-            "dnsSettings": {
-              "dnsServers": [
-                "[variables('dnsServerPrivateIp')]","[variables('dnsServer2PrivateIp')]"
-              ]
             }
-          }
         },
         {
             "apiVersion": "2015-06-15",
@@ -383,9 +383,9 @@
                     }
                 ],
                 "dnsSettings": {
-                  "dnsServers": [
-                    "[variables('dnsServerPrivateIp')]","[variables('dnsServer2PrivateIp')]"
-                  ]
+                    "dnsServers": [
+                        "[variables('dnsServerPrivateIp')]","[variables('dnsServer2PrivateIp')]"
+                    ]
                 }
             }
         },
@@ -406,7 +406,7 @@
                     "id": "[resourceId('Microsoft.Compute/availabilitySets', 'gw-availabilityset')]"
                 },
                 "osProfile": {
-                    "computerName": "rmon-gw1",
+                    "computerName": "gateway",
                     "adminUsername": "[parameters('adminUsername')]",
                     "adminPassword": "[parameters('adminPassword')]"
                 },
@@ -569,7 +569,7 @@
                     "id": "[resourceId('Microsoft.Compute/availabilitySets', 'cb-availabilityset')]"
                 },
                 "osProfile": {
-                    "computerName": "rmon-cb1",
+                    "computerName": "broker",
                     "adminUsername": "[parameters('adminUsername')]",
                     "adminPassword": "[parameters('adminPassword')]"
                 },
@@ -616,24 +616,24 @@
                 "settings": {
                     "modulesUrl": "[concat(variables('assetLocation'),'/Configuration.zip')]",
                     "configurationFunction": "Configuration.ps1\\RDSDeployment",
-                  "Properties": {
-                    "adminCreds": {
-                      "UserName": "[parameters('adminUsername')]",
-                      "Password": "PrivateSettingsRef:adminPassword"
-                    },
-                    "connectionBroker": "[concat('broker.',parameters('adDomainName'))]",
-                    "domainName": "[parameters('adDomainName')]",
-                    "externalfqdn": "[reference(variables('gatewayIpRef')).dnsSettings.fqdn]",
-                    "numberOfRdshInstances": "[parameters('numberOfRdshInstances')]",
-                    "sessionHostNamingPrefix": "rdsh-",
-                    "webAccessServer": "[concat('gateway.',parameters('adDomainName'))]"
-                  }
-                },
-                "protectedSettings": {
-                    "Items": {
-                        "adminPassword": "[parameters('adminPassword')]"
+                    "Properties": {
+                        "adminCreds": {
+                            "UserName": "[parameters('adminUsername')]",
+                            "Password": "PrivateSettingsRef:adminPassword"
+                        },
+                        "connectionBroker": "[concat('broker.',parameters('adDomainName'))]",
+                        "domainName": "[parameters('adDomainName')]",
+                        "externalfqdn": "[reference(variables('gatewayIpRef')).dnsSettings.fqdn]",
+                        "numberOfRdshInstances": "[parameters('numberOfRdshInstances')]",
+                        "sessionHostNamingPrefix": "rdsh-",
+                        "webAccessServer": "[concat('gateway.',parameters('adDomainName'))]"
                     }
+                },
+              "protectedSettings": {
+                "Items": {
+                  "adminPassword": "[parameters('adminPassword')]"
                 }
+              }
             }
         }
     ]

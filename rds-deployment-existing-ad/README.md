@@ -6,6 +6,8 @@ This template deploys the following resources:
 
 The template will use existing DC, join all vms to the domain and configure RDS roles in the deployment.
 
+If you're using AD DS you must enter a global administrators credentials for the Admin Username and Admin Password variables'
+
 Click the button below to deploy
 
 <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FChronos74%2Fazure-quickstart-templates%2Fmaster%2Frds-deployment-existing-ad%2Fazuredeploy.json" target="_blank">

@@ -102,7 +102,7 @@
         "cbdnsLabelPrefix": "[toLower(concat('cbd', resourceGroup().name))]",
         "imagePublisher": "MicrosoftWindowsServer",
         "imageOffer": "WindowsServer",
-        "dnsServerPrivateIp": "10.60.0.4",
+        "dnsServerPrivateIp": "10.52.0.4,10.52.0.5",
         "subnet-id": "[concat(resourceId(parameters('adVnetRG'),'Microsoft.Network/virtualNetworks',parameters('adVnetName')),'/subnets/',parameters('adSubnetName'))]",
         "publicIpRef": "publicIp",
         "brokerIpRef": "brokerpublicIp",
@@ -345,6 +345,11 @@
                         }
                     }
                 ],
+                "dnsSettings": {
+                    "dnsServers": [
+                        "[variables('dnsServerPrivateIp')]"
+                    ]
+                }
             }
         },
         {
@@ -371,6 +376,11 @@
                         }
                     }
                 ],
+                "dnsSettings": {
+                    "dnsServers": [
+                        "[variables('dnsServerPrivateIp')]"
+                    ]
+                }
             }
         },
         {
@@ -390,7 +400,7 @@
                     "id": "[resourceId('Microsoft.Compute/availabilitySets', 'gw-availabilityset')]"
                 },
                 "osProfile": {
-                    "computerName": "gateway",
+                    "computerName": "rmon-gw1",
                     "adminUsername": "[parameters('adminUsername')]",
                     "adminPassword": "[parameters('adminPassword')]"
                 },
@@ -553,7 +563,7 @@
                     "id": "[resourceId('Microsoft.Compute/availabilitySets', 'cb-availabilityset')]"
                 },
                 "osProfile": {
-                    "computerName": "broker",
+                    "computerName": "rmon-cb1",
                     "adminUsername": "[parameters('adminUsername')]",
                     "adminPassword": "[parameters('adminPassword')]"
                 },
@@ -600,18 +610,18 @@
                 "settings": {
                     "modulesUrl": "[concat(variables('assetLocation'),'/Configuration.zip')]",
                     "configurationFunction": "Configuration.ps1\\RDSDeployment",
-                    "Properties": {
-                        "adminCreds": {
-                            "UserName": "[parameters('adminUsername')]",
-                            "Password": "PrivateSettingsRef:adminPassword"
-                        },
-                        "connectionBroker": "[concat('broker.',parameters('adDomainName'))]",
-                        "domainName": "[parameters('adDomainName')]",
-                        "externalfqdn": "[reference(variables('gatewayIpRef')).dnsSettings.fqdn]",
-                        "numberOfRdshInstances": "[parameters('numberOfRdshInstances')]",
-                        "sessionHostNamingPrefix": "rdsh-",
-                        "webAccessServer": "[concat('gateway.',parameters('adDomainName'))]"
-                    }
+                  "Properties": {
+                    "adminCreds": {
+                      "UserName": "[parameters('adminUsername')]",
+                      "Password": "PrivateSettingsRef:adminPassword"
+                    },
+                    "connectionBroker": "[concat('broker.',parameters('adDomainName'))]",
+                    "domainName": "[parameters('adDomainName')]",
+                    "externalfqdn": "[reference(variables('gatewayIpRef')).dnsSettings.fqdn]",
+                    "numberOfRdshInstances": "[parameters('numberOfRdshInstances')]",
+                    "sessionHostNamingPrefix": "rdsh-",
+                    "webAccessServer": "[concat('gateway.',parameters('adDomainName'))]"
+                  }
                 },
                 "protectedSettings": {
                     "Items": {
